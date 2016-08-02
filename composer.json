@@ -1,4 +1,12 @@
 {
+    "name": "arkitecht/cayan",
+    "description": "PHP Wrapper for Cayan Genius Credit Card Terminal API",
+    "authors": [
+        {
+            "name": "Aaron Rubin",
+            "email": "aaron@arkitech.net"
+        }
+    ],
     "require": {
         "illuminate/support": "^5.2",
         "guzzlehttp/guzzle": "^6.2"
