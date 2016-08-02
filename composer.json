@@ -1,0 +1,11 @@
+{
+    "require": {
+        "illuminate/support": "^5.2",
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Arkitecht\\Cayan\\": "src/Arkitecht/Cayan"
+        }
+    }
+}
