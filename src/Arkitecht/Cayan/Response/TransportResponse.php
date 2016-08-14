@@ -1,6 +1,6 @@
 <?php
 
-namespace Arkitecht\Cayan;
+namespace Arkitecht\Cayan\Response;
 
 class TransportResponse
 {

@@ -23,10 +23,11 @@ class TransportService extends \SoapClient
         'DisplayColors'             => 'Arkitecht\\Cayan\\DisplayColors',
         'DisplayOptions'            => 'Arkitecht\\Cayan\\DisplayOptions',
         'HealthCareAmountDetails'   => 'Arkitecht\\Cayan\\HealthCareAmountDetails',
-        'CreateTransactionResponse' => 'Arkitecht\\Cayan\\CreateTransactionResponse',
-        'TransportResponse'         => 'Arkitecht\\Cayan\\TransportResponse',
+        'CreateTransactionResponse' => 'Arkitecht\\Cayan\\Response\\CreateTransactionResponse',
+        'TransportResponse'         => 'Arkitecht\\Cayan\\Response\\TransportResponse',
         'ArrayOfMessage'            => 'Arkitecht\\Cayan\\ArrayOfMessage',
         'Message'                   => 'Arkitecht\\Cayan\\Message',
+        'PostAuthorization'         => 'Arkitecht\\Cayan\\PostAuthorization',
     );
 
     public function __construct($test = false, $options = [])
@@ -82,7 +83,6 @@ class TransportService extends \SoapClient
         ];
 
         $response = $this->makeCEDRequest(1, $params, $format);
-        print_r($response);
 
         return \GuzzleHttp\json_decode($response);
     }
@@ -157,6 +157,116 @@ class TransportService extends \SoapClient
         return \GuzzleHttp\json_decode($response);
     }
 
+    public function deleteItem($order, $itemData = [], $format = 'JSON')
+    {
+        $defaults = [
+            'DisplayCustomSubTotal' => ''
+        ];
+
+        $params = [
+            'Action' => 'DeleteItem',
+            'Order'  => $order
+        ];
+
+        $params = array_merge($params, $defaults, $itemData);
+
+        $this->checkRequestParams($params, [
+            'TargetItemID',
+            'OrderTotal',
+            'OrderTax'
+        ], 'deleteItem');
+
+        $response = $this->makeCEDRequest(1, $params, $format);
+
+        return \GuzzleHttp\json_decode($response);
+    }
+
+    public function deleteAllItems($order, $itemData = [], $format = 'JSON')
+    {
+        $defaults = [
+            'DisplayCustomSubTotal' => ''
+        ];
+
+        $params = [
+            'Action' => 'DeleteAllItems',
+            'Order'  => $order
+        ];
+
+        $params = array_merge($params, $defaults, $itemData);
+
+        $this->checkRequestParams($params, [
+            'RetainPaymentData' => ['true', 'false'],
+            'OrderTotal',
+            'OrderTax'
+        ], 'deleteAllItems');
+
+        $response = $this->makeCEDRequest(1, $params, $format);
+
+        return \GuzzleHttp\json_decode($response);
+    }
+
+    public function updateItem($order, $itemData = [], $format = 'JSON')
+    {
+        $defaults = [
+            'Type'     => 'Sku',
+            'UPC'      => '',
+            'Category' => 'None'
+        ];
+
+        $params = [
+            'Action' => 'AddItem',
+            'Order'  => $order
+        ];
+
+        $params = array_merge($params, $defaults, $itemData);
+
+        $this->checkRequestParams($params, [
+            'Order',
+            'TargetItemID',
+            'Type'     => ['Sku', 'Misc'],
+            'TypeValue',
+            'Quantity',
+            'Description',
+            'Amount',
+            'TaxAmount',
+            'OrderTotal',
+            'OrderTax',
+            'Category' => ['None', 'Ebt', 'Fuel']
+
+        ], 'updateItem');
+
+        $response = $this->makeCEDRequest(1, $params, $format);
+
+        return \GuzzleHttp\json_decode($response);
+    }
+
+    public function updateTotal($order, $orderTotal, $orderTax, $customSubtotal = '', $format = 'JSON')
+    {
+        $params = [
+            'Action'                => 'UpdateTotal',
+            'Order'                 => $order,
+            'OrderTotal'            => $orderTotal,
+            'OrderTax'              => $orderTax,
+            'DisplayCustomSubTotal' => $customSubtotal
+        ];
+
+        $response = $this->makeCEDRequest(1, $params, $format);
+
+        return \GuzzleHttp\json_decode($response);
+    }
+
+    public function orderSummary($order, $format = 'JSON')
+    {
+        $params = [
+            'Action' => 'OrderSummary',
+            'Order'  => $order
+        ];
+
+        $response = $this->makeCEDRequest(1, $params, $format);
+
+        return \GuzzleHttp\json_decode($response);
+    }
+
     public function endOrder($order, $externalPaymentType = '', $format = 'JSON')
     {
         $params = [
@@ -176,9 +286,55 @@ class TransportService extends \SoapClient
         return \GuzzleHttp\json_decode($response);
     }
 
+    public function getAgreement($order, $agreementData = [], $format = 'JSON')
+    {
+        $defaults = [
+            'AcceptLabel'  => 'Accept',
+            'DeclineLabel' => 'Decline'
+        ];
+
+        $params = [
+            'Action' => 'GetAgreement'
+        ];
+
+        $params = array_merge($params, $defaults, $agreementData);
+
+        $this->checkRequestParams($params, [
+            'RequestID'
+        ], 'getAgreement');
+
+        $response = $this->makeCEDRequest(1, $params, $format);
+
+        return \GuzzleHttp\json_decode($response);
+    }
+
+    function getSignature($requestID, $title = '', $format = 'JSON')
+    {
+        $params = [
+            'Action'    => 'GetSignature',
+            'RequestID' => $requestID,
+            'Title'     => $title
+        ];
+
+        $response = $this->makeCEDRequest(1, $params, $format);
+
+        return \GuzzleHttp\json_decode($response);
+    }
+
+    public function cancelTransaction($format = 'JSON')
+    {
+        $params = [
+            'Action' => 'Cancel'
+        ];
+
+        $response = $this->makeCEDRequest(1, $params, $format);
+
+        return \GuzzleHttp\json_decode($response);
+    }
+
     public function isSuccess($response)
     {
-        if ( property_exists($response,'Status') && $response->Status == 'Success' )
+        if (property_exists($response, 'Status') && $response->Status == 'Success')
             return true;
 
         return false;
@@ -202,12 +358,9 @@ class TransportService extends \SoapClient
 
     private function makeCEDRequest($ver = 1, $params = [], $format = 'JSON')
     {
-        $uri = $this->cedIp . ':' . $this->cedPort .'/v' . $ver . '/pos';
-        print "URI: $uri";
+        $uri = $this->cedIp . ':' . $this->cedPort . '/v' . $ver . '/pos';
 
         $params['Format'] = $format;
-
-        print_r($params);
 
         $client = new Client();
         $response = $client->request('GET', $uri, [
@@ -219,12 +372,32 @@ class TransportService extends \SoapClient
         return $json;
     }
 
-    //Auth code is from processor
-    //Token - is the unique ID of the txn. Token always returned - independent of entry method. Can buy online and return in store
-    //If you do a void and it fails - we may need to do a rfund
-    //salekeyed - manually entered
-    //Vault - store cc info on their system. store vault token.
-    // integrations@cayan.com
+    public function postAuthorization($merchantName, $merchantSiteId, $merchantKey, $invoiceNumber, $token, $amount, $registerNumber, $merchantTransactionId)
+    {
+        $client = new Client();
+        $response = $client->request('POST',
+            'https://ps1.merchantware.net/Merchantware/ws/RetailTransaction/v4/Credit.asmx/PostAuthorization',
+            [
+                'form_params' => [
+                    'merchantName'          => $merchantName,
+                    'merchantSiteId'        => $merchantSiteId,
+                    'merchantKey'           => $merchantKey,
+                    'invoiceNumber'         => $invoiceNumber,
+                    'token'                 => $token,
+                    'amount'                => $amount,
+                    'registerNumber'        => $registerNumber,
+                    'merchantTransactionId' => $merchantTransactionId
+                ]
+            ]);
+        dd($response->getBody()->getContents());
+    }
+
+//Auth code is from processor
+//Token - is the unique ID of the txn. Token always returned - independent of entry method. Can buy online and return in store
+//If you do a void and it fails - we may need to do a rfund
+//salekeyed - manually entered
+//Vault - store cc info on their system. store vault token.
+// integrations@cayan.com
 
 
 }
