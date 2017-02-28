@@ -2,7 +2,7 @@
 
 namespace Arkitecht\Cayan;
 
-class Giftcard extends \SoapClient
+class GiftCardService extends \SoapClient
 {
 
     /**
@@ -11,10 +11,10 @@ class Giftcard extends \SoapClient
     private static $classmap = array (
       'ActivateCard' => 'Arkitecht\\Cayan\\ActivateCard',
       'ActivateCardResponse' =>'Arkitecht\\Cayan\\Response\\ActivateCardResponse',
-      'GiftResponse4' => 'Arkitecht\\Cayan\\GiftResponse4',
+      'GiftResponse4' => 'Arkitecht\\Cayan\\Response\\GiftResponse4',
       'AddPoints' => 'Arkitecht\\Cayan\\AddPoints',
       'AddPointsResponse' =>'Arkitecht\\Cayan\\Response\\AddPointsResponse',
-      'GiftLoyaltyResponse4' => 'Arkitecht\\Cayan\\GiftLoyaltyResponse4',
+      'GiftLoyaltyResponse4' => 'Arkitecht\\Cayan\\Response\\GiftLoyaltyResponse4',
       'AddValue' => 'Arkitecht\\Cayan\\AddValue',
       'AddValueResponse' =>'Arkitecht\\Cayan\\Response\\AddValueResponse',
       'BalanceInquiry' => 'Arkitecht\\Cayan\\BalanceInquiry',
@@ -26,7 +26,7 @@ class Giftcard extends \SoapClient
       'Sale' => 'Arkitecht\\Cayan\\SaleCustom',
       'SaleResponse' => 'Arkitecht\\Cayan\\SaleResponseCustom',
       'ActivateCardKeyed' => 'Arkitecht\\Cayan\\ActivateCardKeyed',
-      'ActivateCardKeyedResponse' =>'Arkitecht\\Cayan\\Response\\Response\\ActivateCardKeyedResponse',
+      'ActivateCardKeyedResponse' =>'Arkitecht\\Cayan\\Response\\ActivateCardKeyedResponse',
       'AddPointsKeyed' => 'Arkitecht\\Cayan\\AddPointsKeyed',
       'AddPointsKeyedResponse' =>'Arkitecht\\Cayan\\Response\\AddPointsKeyedResponse',
       'AddValueKeyed' => 'Arkitecht\\Cayan\\AddValueKeyed',
@@ -74,7 +74,7 @@ class Giftcard extends \SoapClient
      * @param ActivateCard $parameters
      * @return ActivateCardResponse
      */
-    public function ActivateCard(ActivateCard $parameters)
+    public function activateCard(ActivateCard $parameters)
     {
       return $this->__soapCall('ActivateCard', array($parameters));
     }
@@ -83,7 +83,7 @@ class Giftcard extends \SoapClient
      * @param AddPoints $parameters
      * @return AddPointsResponse
      */
-    public function AddPoints(AddPoints $parameters)
+    public function addPoints(AddPoints $parameters)
     {
       return $this->__soapCall('AddPoints', array($parameters));
     }
@@ -92,7 +92,7 @@ class Giftcard extends \SoapClient
      * @param AddValue $parameters
      * @return AddValueResponse
      */
-    public function AddValue(AddValue $parameters)
+    public function addValue(AddValue $parameters)
     {
       return $this->__soapCall('AddValue', array($parameters));
     }
@@ -101,7 +101,7 @@ class Giftcard extends \SoapClient
      * @param BalanceInquiry $parameters
      * @return BalanceInquiryResponse
      */
-    public function BalanceInquiry(BalanceInquiry $parameters)
+    public function balanceInquiry(BalanceInquiry $parameters)
     {
       return $this->__soapCall('BalanceInquiry', array($parameters));
     }
@@ -110,7 +110,7 @@ class Giftcard extends \SoapClient
      * @param ForceSaleCustom $parameters
      * @return ForceSaleResponse
      */
-    public function ForceSale($parameters)
+    public function forceSale($parameters)
     {
       return $this->__soapCall('ForceSale', array($parameters));
     }
@@ -119,7 +119,7 @@ class Giftcard extends \SoapClient
      * @param RedeemPoints $parameters
      * @return RedeemPointsResponse
      */
-    public function RedeemPoints(RedeemPoints $parameters)
+    public function redeemPoints(RedeemPoints $parameters)
     {
       return $this->__soapCall('RedeemPoints', array($parameters));
     }
@@ -128,7 +128,7 @@ class Giftcard extends \SoapClient
      * @param SaleCustom $parameters
      * @return SaleResponse
      */
-    public function Sale($parameters)
+    public function sale($parameters)
     {
       return $this->__soapCall('Sale', array($parameters));
     }
@@ -137,7 +137,7 @@ class Giftcard extends \SoapClient
      * @param ActivateCardKeyed $parameters
      * @return ActivateCardKeyedResponse
      */
-    public function ActivateCardKeyed(ActivateCardKeyed $parameters)
+    public function activateCardKeyed(ActivateCardKeyed $parameters)
     {
       return $this->__soapCall('ActivateCardKeyed', array($parameters));
     }
@@ -146,7 +146,7 @@ class Giftcard extends \SoapClient
      * @param AddPointsKeyed $parameters
      * @return AddPointsKeyedResponse
      */
-    public function AddPointsKeyed(AddPointsKeyed $parameters)
+    public function addPointsKeyed(AddPointsKeyed $parameters)
     {
       return $this->__soapCall('AddPointsKeyed', array($parameters));
     }
@@ -155,7 +155,7 @@ class Giftcard extends \SoapClient
      * @param AddValueKeyed $parameters
      * @return AddValueKeyedResponse
      */
-    public function AddValueKeyed(AddValueKeyed $parameters)
+    public function addValueKeyed(AddValueKeyed $parameters)
     {
       return $this->__soapCall('AddValueKeyed', array($parameters));
     }
@@ -173,7 +173,7 @@ class Giftcard extends \SoapClient
      * @param BalanceInquiryKeyed $parameters
      * @return BalanceInquiryKeyedResponse
      */
-    public function BalanceInquiryKeyed(BalanceInquiryKeyed $parameters)
+    public function balanceInquiryKeyed(BalanceInquiryKeyed $parameters)
     {
       return $this->__soapCall('BalanceInquiryKeyed', array($parameters));
     }
