@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "151e1ff32f4e11b3667b727cd3c017ec",
-    "content-hash": "ddcdf066f4513bdfefee3c7991836ce5",
+    "hash": "763b23cb5838b55b8ae2e40ed1bd4507",
+    "content-hash": "c9726bf2113ef286229e19a0bc718748",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -439,7 +439,9 @@
                 "response"
             ],
             "time": "2015-05-04 20:22:00"
-        },
+        }
+    ],
+    "packages-dev": [
         {
             "name": "symfony/options-resolver",
             "version": "v2.8.8",
@@ -543,7 +545,6 @@
             "time": "2016-01-13 13:00:24"
         }
     ],
-    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
