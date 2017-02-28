@@ -1,6 +1,6 @@
 {
     "name": "arkitecht/cayan",
-    "description": "PHP Wrapper for Cayan Genius Credit Card Terminal API",
+    "description": "PHP Wrapper for Cayan Genius Credit Card Terminal and Merchantware APIs",
     "authors": [
         {
             "name": "Aaron Rubin",
